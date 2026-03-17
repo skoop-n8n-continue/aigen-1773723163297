@@ -1,0 +1,426 @@
+:root {
+    /* Color Palette - Organic Oasis */
+    --color-wood-dark: #6d4c41;     /* Dark Oak */
+    --color-wood-main: #8d6e63;     /* Standard Wood */
+    --color-wood-light: #a1887f;    /* Light Wood */
+    --color-leaf-green: #7cb342;    /* Vibrant Green */
+    --color-leaf-dark: #558b2f;     /* Darker Green for hover */
+    --color-cream-bg: #f9f8f4;      /* Soft Off-white Background */
+    --color-cream-card: #ffffff;    /* Card Background */
+    --color-text-dark: #3e2723;     /* Very Dark Brown for text */
+    --color-text-light: #795548;    /* Lighter text */
+    --color-accent-water: #4fc3f7;  /* Fountain blue */
+
+    /* Shadows & Radii */
+    --shadow-soft: 0 10px 40px rgba(109, 76, 65, 0.1);
+    --shadow-inner: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+    --radius-xl: 32px;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-cream-bg);
+    color: var(--color-text-dark);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Important for kiosk */
+    /* Hide scrollbars completely */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Helper Class */
+.hidden {
+    display: none !important;
+}
+
+/* Layout */
+.kiosk-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /* Standard kiosk aspect ratios typically */
+    background-color: var(--color-cream-bg);
+    box-shadow: var(--shadow-soft);
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 450px; /* Wide enough for touch targets */
+    height: 100%;
+    background-color: var(--color-wood-main);
+    color: var(--color-cream-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.15);
+    z-index: 10;
+    /* Subtle wood texture SVG */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.08' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+    background-blend-mode: multiply;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #ffffff;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: 0.5px;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Search Box */
+.search-container {
+    display: flex;
+    margin-bottom: 25px;
+    background: var(--color-cream-card);
+    border-radius: var(--radius-xl);
+    padding: 8px;
+    box-shadow: var(--shadow-inner);
+}
+
+.search-container input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    color: var(--color-text-dark);
+    outline: none;
+    border-radius: var(--radius-xl);
+}
+
+.search-container input::placeholder {
+    color: #bcaaa4;
+}
+
+.search-container button {
+    background: var(--color-leaf-green);
+    border: none;
+    width: 60px;
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.search-container button:active {
+    background: var(--color-leaf-dark);
+}
+
+/* Category Filters */
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.cat-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid transparent;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: var(--radius-xl);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cat-btn.active {
+    background: var(--color-cream-card);
+    color: var(--color-wood-dark);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Store List */
+.store-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 10px;
+    /* Custom Scrollbar for list */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+
+.store-list::-webkit-scrollbar {
+    width: 8px;
+}
+.store-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.store-list::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 20px;
+}
+
+.store-item {
+    background: var(--color-cream-card);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    color: var(--color-text-dark);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.store-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+    color: var(--color-wood-dark);
+}
+
+.store-item p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* Store Details Panel */
+.store-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+    min-height: 0;
+    padding-right: 10px;
+    /* Custom Scrollbar for list */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+.store-details::-webkit-scrollbar {
+    width: 8px;
+}
+.store-details::-webkit-scrollbar-track {
+    background: transparent;
+}
+.store-details::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: var(--radius-xl);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 25px;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.store-info-card {
+    background: var(--color-cream-card);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.store-info-card h2 {
+    font-size: 2.2rem;
+    color: var(--color-wood-dark);
+    margin-bottom: 10px;
+}
+
+.category-badge {
+    display: inline-block;
+    background: var(--color-cream-bg);
+    color: var(--color-wood-main);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.store-desc {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--color-text-dark);
+}
+
+.action-buttons {
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+.primary-btn {
+    background: var(--color-leaf-green);
+    color: white;
+    border: none;
+    padding: 20px;
+    font-size: 1.4rem;
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    font-weight: 700;
+    width: 100%;
+    box-shadow: 0 6px 20px rgba(124, 179, 66, 0.4);
+    transition: transform 0.2s;
+}
+
+.primary-btn:active {
+    background: var(--color-leaf-dark);
+    transform: scale(0.98);
+}
+
+
+/* --- MAP AREA --- */
+.map-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-cream-bg);
+    /* Soft radial light focusing on the map */
+    background-image: radial-gradient(circle at center, #ffffff 0%, var(--color-cream-bg) 80%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    /* The Pseudo-3D Isometric Tilt */
+    transform: perspective(1200px) rotateX(45deg) rotateZ(-25deg) scale(1);
+    transform-style: preserve-3d;
+}
+
+svg#mallMap {
+    width: 1200px;
+    height: 1000px;
+    max-width: none;
+    /* Soft shadow under the map board */
+    filter: drop-shadow(-20px 30px 25px rgba(109, 76, 65, 0.15));
+}
+
+/* SVG Elements Styling */
+.store rect {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.store text {
+    transition: fill 0.3s ease;
+    pointer-events: none; /* Don't block clicks on the rect */
+}
+
+/* Hover & Selection states */
+.store.selected rect {
+    fill: var(--color-leaf-green);
+    stroke: var(--color-leaf-dark);
+    stroke-width: 4px;
+}
+
+.store.selected text {
+    fill: white;
+}
+
+/* Dynamic Path Drawing */
+.route-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawPath 2s ease forwards;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.route-dot {
+    opacity: 0;
+    animation: fadeInDot 0.5s 1.5s ease forwards;
+}
+
+@keyframes fadeInDot {
+    to { opacity: 1; }
+}
+
+/* Floating Controls */
+.map-controls {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 20;
+}
+
+.map-controls button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--color-cream-card);
+    border: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-wood-dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.map-controls button:active {
+    background: #e0e0e0;
+    transform: scale(0.95);
+}
+
+/* Touch feedback for buttons on kiosk */
+button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
